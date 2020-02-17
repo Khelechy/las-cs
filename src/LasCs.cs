@@ -142,6 +142,21 @@ namespace las_cs.src {
 			return (double.Parse(res.ToList()[0]), wrap);
 		}
 
+		public WellProps property(string p)
+		{
+			Dictionary<string, string> regDict = new Dictionary<string, string>() { { "curve", @"~C(?:\\w*\\s*)*\\n\\s*" }, { "param", @"~P(?:\\w*\\s*)*\\n\\s*" }, { "well", @"~W(?:\\w*\\s*)*\\n\\s*" } };
+			var regExp = new Regex(regDict[p]);
+			var str = this.blobString;
+			var substr = (str as String).Split(regExp.ToString().ToCharArray());
+			var sw = " ";
+			if (substr.Length > 1)
+			{
+				var res = substr[1].Split("~")[0];
+				sw = removeComment(res);
+			}
+
+		}
+
 		public bool wrap()
 		{
 			var v = this.metadata();
